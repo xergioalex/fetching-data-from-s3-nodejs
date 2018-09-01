@@ -1,7 +1,17 @@
 import * as aws from 'aws-sdk'
 import config from './config'
 
-const s3 = new aws.S3({ accessKeyId: config.aws.accessKeyId, secretAccessKey: config.aws.secretAccessKey })
+aws.config.update({
+  region: config.aws.region,
+  accessKeyId: config.aws.accessKeyId,
+  secretAccessKey: config.aws.secretAccessKey,
+  httpOptions: {
+    timeout: 5000 // 5 seconds
+  }
+})
+
+
+const s3 = new aws.S3()
 
 const s3Params = {
     Bucket: config.s3.bucket,

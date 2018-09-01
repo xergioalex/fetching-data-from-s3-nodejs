@@ -122,7 +122,16 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var s3 = new aws.S3({ accessKeyId: _config2.default.aws.accessKeyId, secretAccessKey: _config2.default.aws.secretAccessKey });
+aws.config.update({
+    region: _config2.default.aws.region,
+    accessKeyId: _config2.default.aws.accessKeyId,
+    secretAccessKey: _config2.default.aws.secretAccessKey,
+    httpOptions: {
+        timeout: 5000 // 5 seconds
+    }
+});
+
+var s3 = new aws.S3();
 
 var s3Params = {
     Bucket: _config2.default.s3.bucket,
@@ -189,7 +198,8 @@ Object.defineProperty(exports, "__esModule", {
 var config = {
   aws: {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    region: process.env.AWS_REGION
   },
   s3: {
     bucket: process.env.S3_BUCKET,
